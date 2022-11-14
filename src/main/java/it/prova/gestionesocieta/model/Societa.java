@@ -1,5 +1,6 @@
 package it.prova.gestionesocieta.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import it.prova.gestionesocieta.model.Dipendente;
 
 @Entity
 @Table(name = "societa")
@@ -26,14 +25,14 @@ public class Societa {
 	@Column(name = "indirizzo")
 	private String indirizzo;
 	@Column(name = "datafondazione")
-	private String dataFondazione;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "municipio")
+	private Date dataFondazione;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "societa")
 	private Set<Dipendente> dipendenti = new HashSet<>();
 
 	public Societa() {
 	}
 
-	public Societa(String ragioneSociale, String indirizzo, String dataFondazione) {
+	public Societa(String ragioneSociale, String indirizzo, Date dataFondazione) {
 		super();
 		this.ragioneSociale = ragioneSociale;
 		this.indirizzo = indirizzo;
@@ -64,11 +63,11 @@ public class Societa {
 		this.indirizzo = indirizzo;
 	}
 
-	public String getDataFondazione() {
+	public Date getDataFondazione() {
 		return dataFondazione;
 	}
 
-	public void setDataFondazione(String dataFondazione) {
+	public void setDataFondazione(Date dataFondazione) {
 		this.dataFondazione = dataFondazione;
 	}
 
