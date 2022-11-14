@@ -9,6 +9,7 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionesocieta.exception.RimozioneSocietaAssociata;
 import it.prova.gestionesocieta.model.Societa;
 import it.prova.gestionesocieta.repository.SocietaRepository;
 
@@ -39,9 +40,9 @@ public class SocietaServiceImpl implements SocietaService{
 	}
 
 	@Transactional
-	public void rimuovi(Societa societaInstance) {
+	public void rimuovi(Societa societaInstance) throws RimozioneSocietaAssociata {
 		if(societaInstance.getDipendenti().size() != 0) {
-			throw new RuntimeException("Impossibile rimuovere societa con dipendenti associati");
+			throw new RimozioneSocietaAssociata("Impossibile rimuovere societa con dipendenti associati");
 		}
 		else {
 			societaRepository.delete(societaInstance);
@@ -56,4 +57,8 @@ public class SocietaServiceImpl implements SocietaService{
 		return (List<Societa>) societaRepository.findAll(Example.of(societaExample, matcher));
 	}
 
+	@Transactional(readOnly = true)
+	public List<Societa> cercaTutteSocietaConDipendentiConRedditoAnnuo(int etaInput) {
+		return societaRepository.findAllDistinctByDipendenti_redditoAnnuoLordoGreaterThan(etaInput);
+	}
 }

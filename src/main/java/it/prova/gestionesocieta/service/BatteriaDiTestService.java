@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.prova.gestionesocieta.model.Societa;
+import it.prova.gestionesocieta.exception.RimozioneSocietaAssociata;
 import it.prova.gestionesocieta.model.Dipendente;
 
 @Service
@@ -59,7 +60,7 @@ public class BatteriaDiTestService {
 		System.out.println("testFindByExampleSocieta........OK");
 	}
 	
-	public void testRimuoviSocieta() {
+	public void testRimuoviSocieta() throws RimozioneSocietaAssociata {
 
 		Societa nuovoSocieta = new Societa("Societa Eliminata", "Via eliminata", new Date());
 		if (nuovoSocieta.getId() != null)
@@ -127,6 +128,16 @@ public class BatteriaDiTestService {
 		// mi aspetto cognome gialli
 		if(!dipendenteService.caricaSingoloDipendenti(nuovoDipendente.getId()).getCognome().equals("Gialli")) {
 			throw new RuntimeException("testModificaDipendente...failed: modifiche non avvenute!!");
+		}
+	}
+	
+	public void testCercaTutteSocietaConDipendentiConRedditoAnnuo() {
+		
+		List<Societa> societaTrovate = societaService.cercaTutteSocietaConDipendentiConRedditoAnnuo(5000);
+		
+		//me ne aspetto uno
+		if(societaTrovate.size()!=1) {
+			throw new RuntimeException("testCercaTutteSocietaConDipendentiConRedditoAnnuo...failed: numero di risultati errato");
 		}
 	}
 }
