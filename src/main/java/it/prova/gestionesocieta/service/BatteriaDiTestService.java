@@ -81,4 +81,52 @@ public class BatteriaDiTestService {
 		
 		System.out.println("testRimuoviSocieta........OK");
 	}
+	
+	public void testInserimentoDipendente() {
+		Societa nuovoSocieta = new Societa("Societa 3", "Via 3", new Date());
+		if (nuovoSocieta.getId() != null)
+			throw new RuntimeException("testInserimentoDipendente...failed: transient object con id valorizzato");
+		// salvo
+		societaService.inserisciNuovo(nuovoSocieta);
+		if (nuovoSocieta.getId() == null || nuovoSocieta.getId() < 1)
+			throw new RuntimeException("testInserimentoDipendente...failed: inserimento fallito");
+		
+		Dipendente nuovoDipendente = new Dipendente("Mario", "Rossi", new Date(), 15000);
+		nuovoDipendente.setSocieta(nuovoSocieta);
+		if (nuovoDipendente.getId() != null)
+			throw new RuntimeException("testInserimentoDipendente...failed: transient object con id valorizzato");
+		// salvo
+		dipendenteService.inserisciNuovo(nuovoDipendente);
+		if (nuovoDipendente.getId() == null || nuovoDipendente.getId() < 1)
+			throw new RuntimeException("testInserimentoDipendente...failed: inserimento fallito");
+	}
+	
+	public void testModificaDipendente() {
+		Societa nuovoSocieta = new Societa("Societa 4", "Via 4", new Date());
+		if (nuovoSocieta.getId() != null)
+			throw new RuntimeException("testModificaDipendente...failed: transient object con id valorizzato");
+		// salvo
+		societaService.inserisciNuovo(nuovoSocieta);
+		if (nuovoSocieta.getId() == null || nuovoSocieta.getId() < 1)
+			throw new RuntimeException("testModificaDipendente...failed: inserimento fallito");
+		
+		Dipendente nuovoDipendente = new Dipendente("Luigi", "Verdi", new Date(), 20000);
+		nuovoDipendente.setSocieta(nuovoSocieta);
+		if (nuovoDipendente.getId() != null)
+			throw new RuntimeException("testModificaDipendente...failed: transient object con id valorizzato");
+		// salvo
+		dipendenteService.inserisciNuovo(nuovoDipendente);
+		if (nuovoDipendente.getId() == null || nuovoDipendente.getId() < 1)
+			throw new RuntimeException("testModificaDipendente...failed: inserimento fallito");
+		
+		//modifico
+		nuovoDipendente.setCognome("Gialli");
+		nuovoDipendente.setRedditoAnnuoLordo(1000);
+		dipendenteService.aggiorna(nuovoDipendente);
+		
+		// mi aspetto cognome gialli
+		if(!dipendenteService.caricaSingoloDipendenti(nuovoDipendente.getId()).getCognome().equals("Gialli")) {
+			throw new RuntimeException("testModificaDipendente...failed: modifiche non avvenute!!");
+		}
+	}
 }
