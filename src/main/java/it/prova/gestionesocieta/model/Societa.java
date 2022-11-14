@@ -1,0 +1,88 @@
+package it.prova.gestionesocieta.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import it.prova.gestionesocieta.model.Dipendente;
+
+@Entity
+@Table(name = "societa")
+public class Societa {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+	@Column(name = "ragionesociale")
+	private String ragioneSociale;
+	@Column(name = "indirizzo")
+	private String indirizzo;
+	@Column(name = "datafondazione")
+	private String dataFondazione;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "municipio")
+	private Set<Dipendente> dipendenti = new HashSet<>();
+
+	public Societa() {
+	}
+
+	public Societa(String ragioneSociale, String indirizzo, String dataFondazione) {
+		super();
+		this.ragioneSociale = ragioneSociale;
+		this.indirizzo = indirizzo;
+		this.dataFondazione = dataFondazione;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getRagioneSociale() {
+		return ragioneSociale;
+	}
+
+	public void setRagioneSociale(String ragioneSociale) {
+		this.ragioneSociale = ragioneSociale;
+	}
+
+	public String getIndirizzo() {
+		return indirizzo;
+	}
+
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+
+	public String getDataFondazione() {
+		return dataFondazione;
+	}
+
+	public void setDataFondazione(String dataFondazione) {
+		this.dataFondazione = dataFondazione;
+	}
+
+	public Set<Dipendente> getDipendenti() {
+		return dipendenti;
+	}
+
+	public void setDipendenti(Set<Dipendente> dipendenti) {
+		this.dipendenti = dipendenti;
+	}
+
+	@Override
+	public String toString() {
+		return "Societa [id=" + id + ", ragioneSociale=" + ragioneSociale + ", indirizzo=" + indirizzo
+				+ ", dataFondazione=" + dataFondazione + ", dipendenti=" + dipendenti + "]";
+	}
+}
