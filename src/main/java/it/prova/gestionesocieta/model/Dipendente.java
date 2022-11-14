@@ -94,6 +94,6 @@ public class Dipendente {
 	@Override
 	public String toString() {
 		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", dataAssunzione=" + dataAssunzione
-				+ ", redditoAnnuoLordo=" + redditoAnnuoLordo + ", societa=" + societa + "]";
+				+ ", redditoAnnuoLordo=" + redditoAnnuoLordo + "]";
 	}
 }

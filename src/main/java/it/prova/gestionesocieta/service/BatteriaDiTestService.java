@@ -1,5 +1,7 @@
 package it.prova.gestionesocieta.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -139,5 +141,23 @@ public class BatteriaDiTestService {
 		if(societaTrovate.size()!=1) {
 			throw new RuntimeException("testCercaTutteSocietaConDipendentiConRedditoAnnuo...failed: numero di risultati errato");
 		}
+	}
+	
+	public void testFindOldestByYear() {
+		
+		Dipendente dipendente = null;
+		try {
+			dipendente = dipendenteService.findOldestByYear(new SimpleDateFormat("yyyy-MM-dd").parse("1990-01-01"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//il piu anziano e' rossi quindi controllo
+		System.out.println(dipendente.toString());
+		if(!dipendente.getCognome().equals("Rossi")) {
+			throw new RuntimeException("testFindOldestByYear...failed: errore nel trovare il piu anziano");
+		}
+		
 	}
 }
